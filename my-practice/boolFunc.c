@@ -9,6 +9,10 @@ predicate (bool) RemainderEqualZero (i32 x, i32 y)
 predicate (bool) Eq_x_y (i32 x, i32 y)
 {
 
+
+
+
+    
 }
 */
 
