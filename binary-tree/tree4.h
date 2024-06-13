@@ -52,6 +52,3 @@ struct TreeNode* TreeNode_cons_both(int r, struct TreeNode* left_b, struct TreeN
   p->right = right_b;
   return p;
 }
-
-//**** I know you don't insert from the top of binary tree usually  *****//
-//**** This was for CN practice purposes since I had a guide        *****//
