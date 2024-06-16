@@ -26,6 +26,6 @@ unsigned int divisor (int x, int y)
 
     int temp = y - x;
     return ((x == 0) ? F : 
-    ((y == 0 || x == 1) ? T :
+    ((y == 0 || x == 1 || x == y) ? T :
     ((y > x) ? divisor(x, temp) : F)));
 }
