@@ -41,8 +41,8 @@ predicate {datatype tree post, datatype tree ret} BothOwned (pointer t, pointer 
 struct TreeNode* TreeNode_search(struct TreeNode* t, int value)
 /*@ requires take t1 = IntTree(t);
     ensures  take t2 = BothOwned(t, return);
-             t1 == (ptr_eq(t, return) ? (t2.ret) : (t2.post));
-             t2.ret == search(t1, value);
+                  t2.post == t1;
+                  t2.ret == search(t1, value);
 @*/
 {   
     if (t == 0)
@@ -53,25 +53,9 @@ struct TreeNode* TreeNode_search(struct TreeNode* t, int value)
     else
     {
         /*@ unfold search(t1, value); @*/
-        if (t->root == value)
-        {
-            return t;
-        }
-        else
-        {
-            /*@ unfold search(t1, value); @*/
-            struct TreeNode* result;
-            if (value < t->root)
-            {   
-                result = TreeNode_search(t->left, value);
-                return result;
-            }
-            else
-            {
-                result = TreeNode_search(t->right, value);
-                return result;
-            }
-            
-        }
+        struct TreeNode* result_left = TreeNode_search(t->left, value);
+        struct TreeNode* result_right = TreeNode_search(t->right, value);
+        return ((value == t->root) ? t :
+        ((value < t->root) ? result_left : result_right));
     }
 }
