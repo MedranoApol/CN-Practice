@@ -5,9 +5,9 @@
 #ifndef _TREE_H
 #define _TREE_H
 
-#include "tree1.h"
-#include "tree2.h"
-#include "tree3.h"
-#include "tree4.h"
+#include "tree_c_types.h"
+#include "tree_cn_types.h"
+#include "tree_hd_lb_rb.h"
+#include "tree_constructors.h"
 
 #endif //_TREE_H

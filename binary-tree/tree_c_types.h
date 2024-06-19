@@ -13,7 +13,7 @@ extern struct TreeNode* mallocTreeNode();
 /*@ spec mallocTreeNode();
     requires true;
     ensures take u = Block<struct TreeNode>(return);
-            return != NULL;
+            !ptr_eq(return, NULL);
 @*/ 
 
 extern void freeTreeNode (struct TreeNode *t);
