@@ -15,15 +15,13 @@ function [rec] (datatype tree) search(datatype tree sapling, i32 value)
         }
         Tree_Cons {root: rt, left: lb, right: rb} =>
         {
-            let lb_search = search(lb, value);
-            let rb_search = search(rb, value);
             ((value == rt) ? sapling :
-            ((value < rt) ? lb_search : rb_search))
+            ((value < rt) ? search(lb, value) : search(rb, value)))
         }
     }
 }
 
-predicate {datatype tree post, datatype tree ret} BothOwned (pointer t, pointer r)
+predicate {datatype tree post, datatype tree ret} BothOwnedTree (pointer t, pointer r)
 {
   if (ptr_eq(t,r)) {
     take rv = IntTree(r);
@@ -40,7 +38,7 @@ predicate {datatype tree post, datatype tree ret} BothOwned (pointer t, pointer 
 
 struct TreeNode* TreeNode_search(struct TreeNode* t, int value)
 /*@ requires take t1 = IntTree(t);
-    ensures  take t2 = BothOwned(t, return);
+    ensures  take t2 = BothOwnedTree({t}@start , return);
                   t2.post == t1;
                   t2.ret == search(t1, value);
 @*/
@@ -52,10 +50,24 @@ struct TreeNode* TreeNode_search(struct TreeNode* t, int value)
     }
     else
     {
-        /*@ unfold search(t1, value); @*/
-        struct TreeNode* result_left = TreeNode_search(t->left, value);
-        struct TreeNode* result_right = TreeNode_search(t->right, value);
-        return ((value == t->root) ? t :
-        ((value < t->root) ? result_left : result_right));
+        
+        if (t->root == value)
+        {
+            /*@ unfold search(t1, value); @*/
+            return t;
+        }
+        else
+        {
+            if (value < t->root)
+            {   
+                /*@ unfold search(t1, value); @*/
+                return TreeNode_search(t->left, value);
+            }
+            else
+            {
+                /*@ unfold search(t1, value); @*/
+                return TreeNode_search(t->right, value);
+            }
+        }
     }
 }

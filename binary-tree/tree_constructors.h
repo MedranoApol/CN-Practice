@@ -13,9 +13,9 @@ struct TreeNode* TreeNode_nil()
 
 struct TreeNode* TreeNode_cons_left(int r, struct TreeNode* left_b)
 /*@ requires take lb = IntTree(left_b);
-             take rb = IntTreeNull(left_b);
+    (lb == Tree_Nil{} || rt(lb) < r);
     ensures take ret = IntTree(return);
-            ret == Tree_Cons{root: r, left: lb, right: rb};
+            ret == Tree_Cons{root: r, left: lb, right: Tree_Nil{}};
  @*/
 {
   struct TreeNode *p = mallocTreeNode();
@@ -27,9 +27,9 @@ struct TreeNode* TreeNode_cons_left(int r, struct TreeNode* left_b)
 
 struct TreeNode* TreeNode_cons_right(int r, struct TreeNode* right_b)
 /*@ requires take rb = IntTree(right_b);
-            take lb = IntTreeNull(right_b);
+    (rb == Tree_Nil{} || rt(rb) >= r);
     ensures take ret = IntTree(return);
-            ret == Tree_Cons{root: r, left: lb, right: rb};
+            ret == Tree_Cons{root: r, left: Tree_Nil{}, right: rb};
  @*/
 {
   struct TreeNode *p = mallocTreeNode();
@@ -42,9 +42,10 @@ struct TreeNode* TreeNode_cons_right(int r, struct TreeNode* right_b)
 struct TreeNode* TreeNode_cons_both(int r, struct TreeNode* left_b, struct TreeNode* right_b)
 /*@ requires take lb = IntTree(left_b);
              take rb = IntTree(right_b);
+             (lb == Tree_Nil{} || rt(lb) < r) && (rb == Tree_Nil{} || rt(rb) >= r);
     ensures take ret = IntTree(return);
             ret == Tree_Cons{root: r, left: lb, right: rb};
- @*/
+@*/
 {
   struct TreeNode *p = mallocTreeNode();
   p->root = r;

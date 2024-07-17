@@ -1,12 +1,14 @@
 // createTreeNode.c
 
-// ** Intializes new node with value given as its argument
+// ** Initializes new node with value given as its argument
 
 #include "tree.h"
 
 struct TreeNode* TreeNode_create_node(int value)
-/*@ ensures take N = IntTree(return);
-        N == Tree_Cons {root: value, left: Tree_Nil{}, right: Tree_Nil{}};
+/*@ ensures take T = IntTree(return);
+        T == Tree_Cons {root: value, left: Tree_Nil{}, right: Tree_Nil{}};
+        !is_null(return);
+        rt(T) == value;
 @*/
 {
     struct TreeNode* node = mallocTreeNode();

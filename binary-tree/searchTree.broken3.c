@@ -15,10 +15,8 @@ function [rec] (datatype tree) search(datatype tree sapling, i32 value)
         }
         Tree_Cons {root: rt, left: lb, right: rb} =>
         {   
-            let left_branch = search(lb, value);
-            let right_branch = search(rb, value);
             ((value == rt) ? sapling :
-            ((value < rt) ? left_branch : right_branch))
+            ((value < rt) ? search(lb, value) : search(rb, value)))
         }
     }
 }
@@ -50,11 +48,12 @@ struct TreeNode* TreeNode_search(struct TreeNode* t, int value)
         {
             if (value < t->root)
             {   
-                
+                /*@ unfold search(t1, value); @*/
                 return TreeNode_search(t->left, value);
             }
             else
             {
+                /*@ unfold search(t1, value); @*/
                 return TreeNode_search(t->right, value);
             }
         }

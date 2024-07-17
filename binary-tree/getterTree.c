@@ -28,7 +28,7 @@ struct TreeNode* get_Tree_Left (struct TreeNode *t)
     ensures  take v2 = Owned<struct TreeNode>(t);
              take v2_left = Owned<struct TreeNode>(v2.left);
              v1 == v2 && v1_left == v2_left;
-    return == ((is_null(t)) ? (t) : (v1.left));
+    ptr_eq(return, ((is_null(t)) ? (t) : (v1.left)));
 @*/
 {
     if (t)
@@ -47,7 +47,7 @@ struct TreeNode* get_Tree_Right (struct TreeNode *t)
     ensures  take v2 = Owned<struct TreeNode>(t);
              take v2_right = Owned<struct TreeNode>(v2.right);
              v1 == v2 && v1_right == v2_right;
-    return == ((is_null(t)) ? (t) : (v1.right));
+    ptr_eq(return, ((is_null(t)) ? (t) : (v1.right)));
 @*/
 {
     if (t)
